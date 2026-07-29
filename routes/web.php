@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\ProjectController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,8 +19,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-});
-
+   Route::resource('admin/projects', ProjectController::class);});
+Route::get('/admin',  function () {
+    return view('admin.dashboard');
+})->middleware(['auth', 'verified'])->name('admin.dashboard');
 
 require __DIR__.'/auth.php';
