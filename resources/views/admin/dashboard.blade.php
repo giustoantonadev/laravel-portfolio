@@ -25,7 +25,7 @@
                         <h5 class="card-title mb-0">Progetti Totali</h5>
                     </div>
                     <p class="display-5 fw-bold">{{ \App\Models\Project::count() }}</p>
-                    <a href="{{ route('projects.index') }}" class="btn btn-primary btn-sm">Vai ai progetti</a>
+                    <a href="{{ route('admin.projects.index') }}" class="btn btn-primary btn-sm">Vai ai progetti</a>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
 
                     @if($last)
                         <p class="fw-bold">{{ $last->title }}</p>
-                        <a href="{{ route('projects.show', $last) }}" class="btn btn-outline-light btn-sm">
+                        <a href="{{ route('admin.projects.show', $last) }}" class="btn btn-outline-light btn-sm">
                             Vedi progetto
                         </a>
                     @else
@@ -64,7 +64,7 @@
                         <h5 class="card-title mb-0">Azioni Rapide</h5>
                     </div>
 
-                    <a href="{{ route('projects.index') }}" class="btn btn-light btn-sm mb-2 w-100">
+                    <a href="{{ route('admin.projects.index') }}" class="btn btn-light btn-sm mb-2 w-100">
                         Gestisci Progetti
                     </a>
 
@@ -111,7 +111,7 @@
                 Gestisci i contenuti del tuo portfolio in modo semplice e veloce.
                 Inizia dalla sezione <strong>Progetti</strong> per visualizzare i dati già presenti nel database.
             </p>
-            <a href="{{ route('projects.index') }}" class="btn btn-light btn-sm">Vai ai Progetti</a>
+            <a href="{{ route('admin.projects.index') }}" class="btn btn-light btn-sm">Vai ai Progetti</a>
         </div>
     </div>
 
