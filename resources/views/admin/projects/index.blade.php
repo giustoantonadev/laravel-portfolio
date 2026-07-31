@@ -10,6 +10,7 @@
         <tr>
             <th>ID</th>
             <th>Title</th>
+            <th>Type</th>
             <th>Slug</th>
             <th>Actions</th>
         </tr>
@@ -20,6 +21,7 @@
         <tr>
             <td>{{ $project->id }}</td>
             <td>{{ $project->title }}</td>
+            <td>{{ $project->type ? $project->type->name : 'None' }}</td>
             <td>{{ $project->slug }}</td>
 
             <td>

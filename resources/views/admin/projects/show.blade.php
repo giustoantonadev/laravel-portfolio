@@ -5,7 +5,7 @@
 @section('content')
 <h1 class="mb-4">{{ $project->title }}</h1>
 
-<p><strong>Type:</strong> {{ $project->type }}</p>
+<p><strong>Type:</strong> {{ $project->type ? $project->type->name : 'None' }}</p>
 
 
 <div class="card bg-secondary text-light">
