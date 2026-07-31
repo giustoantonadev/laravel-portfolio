@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 
-@section('title', 'Progetti')
+@section('title', 'Projects')
 
 @section('content')
-<h1 class="mb-4">Lista Progetti</h1>
+<h1 class="mb-4">Project List</h1>
 
 <table class="table table-dark table-striped">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Titolo</th>
+            <th>Title</th>
             <th>Slug</th>
-            <th>Azioni</th>
+            <th>Actions</th>
         </tr>
     </thead>
 
@@ -24,11 +24,11 @@
 
             <td>
                 <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-sm btn-primary">
-                    Vedi
+                    View
                 </a>
 
                 <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-sm btn-warning">
-                    Modifica
+                    Edit
                 </a>
 
                 <!-- Bottone che apre la modale -->
@@ -40,7 +40,7 @@
                     data-project-title="{{ $project->title }}"
                     data-project-id="{{ $project->id }}"
                     data-delete-url="{{ route('admin.projects.destroy', $project) }}">
-                    Elimina
+                    Delete
                 </button>
             </td>
         </tr>
@@ -50,7 +50,7 @@
 
 <hr>
 
-<a href="{{ route('admin.projects.create') }}" class="btn btn-success">Crea nuovo progetto</a>
+<a href="{{ route('admin.projects.create') }}" class="btn btn-success">Create new project</a>
 
 <!-- MODALE DELETE -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
@@ -58,23 +58,23 @@
         <div class="modal-content bg-dark text-white">
 
             <div class="modal-header border-secondary">
-                <h5 class="modal-title">Conferma eliminazione</h5>
+                <h5 class="modal-title">Confirm deletion</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
-                <p>Vuoi davvero eliminare il progetto:</p>
+                <p>Are you sure you want to delete the project:</p>
                 <h4 id="modalProjectTitle" class="text-warning"></h4>
             </div>
 
             <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 
                 <!-- Form DELETE vera -->
                 <form id="deleteForm" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger">Elimina definitivamente</button>
+                    <button class="btn btn-danger">Delete permanently</button>
                 </form>
             </div>
 

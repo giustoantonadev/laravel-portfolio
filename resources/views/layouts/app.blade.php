@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -17,7 +17,7 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* Navbar pubblica */
+        /* Public navbar */
         .public-navbar {
             backdrop-filter: blur(10px);
             background: rgba(15, 15, 15, 0.7);
@@ -69,8 +69,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('projects.index') }}">
-                            <i class="bi bi-folder2-open me-1"></i> Progetti
+                        <a class="nav-link" href="{{ route('admin.projects.index') }}">
+                            <i class="bi bi-folder2-open me-1"></i> Projects
                         </a>
                     </li>
 

@@ -23,7 +23,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.projects.index') }}">
-                        <i class="bi bi-folder2-open me-1"></i> Progetti
+                        <i class="bi bi-folder2-open me-1"></i> Projects
                     </a>
                 </li>
 
