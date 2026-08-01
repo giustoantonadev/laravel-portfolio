@@ -14,6 +14,18 @@
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
+    <div class="mb-3">
+        <label for="type_id" class="form-label">Tipo</label>
+        <select name="type_id" id="type_id" class="form-select">
+            <option value="">-- Seleziona un tipo --</option>
+
+            @foreach($types as $type)
+            <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                {{ $type->name }}
+            </option>
+            @endforeach
+        </select>
+    </div>
 
     <div class="mb-3">
         <label for="slug" class="form-label">Slug</label>
@@ -31,13 +43,7 @@
         @enderror
     </div>
 
-    <div class="mb-3">
-        <label for="type" class="form-label">Type</label>
-        <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" value="{{ old('type') }}">
-        @error('type')
-        <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+
 
     <button type="submit" class="btn btn-primary">Create project</button>
 </form>

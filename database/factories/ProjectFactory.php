@@ -20,7 +20,7 @@ class ProjectFactory extends Factory
             'title' => fake()->sentence(3),
             'description' => fake()->paragraph(),
             'slug' => fake()->slug(),
-            'image' => null,
+            'type_id' => fake()->numberBetween(1, 9), // assegna un type casuale
         ];
     }
 }
