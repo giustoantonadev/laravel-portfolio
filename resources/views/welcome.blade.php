@@ -16,7 +16,7 @@
             A collection of my projects, built with Laravel, Bootstrap and lots of passion.
         </p>
 
-        <a href="{{ route('admin.projects.index') }}" class="btn btn-primary btn-lg">
+        <a href="{{ route('projects.index') }}" class="btn btn-primary btn-lg">
             View Projects
         </a>
 
@@ -40,7 +40,7 @@
                     <h5 class="card-title">{{ $project->title }}</h5>
                     <p class="card-text text-muted">{{ Str::limit($project->description, 80) }}</p>
 
-                    <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-outline-light btn-sm">
+                    <a href="{{ route('projects.show', $project) }}" class="btn btn-outline-light btn-sm">
                         Learn more
                     </a>
                 </div>
