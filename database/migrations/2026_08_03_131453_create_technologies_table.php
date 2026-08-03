@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('technologies', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('category')->nullable(); // frontend, backend, database, mobile, devops
+            $table->string('color')->nullable();    // badge color
+            $table->string('icon')->nullable();     // FontAwesome icon
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 
 class ProjectController extends Controller
 {
@@ -13,18 +14,20 @@ class ProjectController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-       $projects = Project::all();
-       return view('admin.projects.index', compact('projects'));
-    }
+{
+    $projects = Project::orderBy('id', 'desc')->paginate(10);
+
+    return view('admin.projects.index', compact('projects'));
+}
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-       $types = Type::all();
-       return view('admin.projects.create', compact('types'));
+        $types = Type::all();
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -37,17 +40,27 @@ class ProjectController extends Controller
             'slug' => 'required|string|max:255|unique:projects,slug',
             'description' => 'nullable|string',
             'type_id' => 'nullable|exists:types,id',
-            ]);
-        Project::create($data);
-        return redirect()->route('admin.projects.index')->with('success', 'Project created successfully.');
+            'technologies' => 'array',
+            'technologies.*' => 'exists:technologies,id',
+        ]);
+
+        $project = Project::create($data);
+
+        if (isset($data['technologies'])) {
+            $project->technologies()->attach($data['technologies']);
+        }
+
+        return redirect()->route('admin.projects.index')
+            ->with('success', 'Project created successfully.');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(Project $project)
     {
-       return view('admin.projects.show', compact('project'));
+        return view('admin.projects.show', compact('project'));
     }
 
     /**
@@ -56,7 +69,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -69,11 +83,22 @@ class ProjectController extends Controller
             'slug' => 'required|string|max:255|unique:projects,slug,' . $project->id,
             'description' => 'nullable|string',
             'type_id' => 'nullable|exists:types,id',
+            'technologies' => 'array',
+            'technologies.*' => 'exists:technologies,id',
         ]);
 
         $project->update($data);
-        return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully.');
+
+        if (isset($data['technologies'])) {
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            $project->technologies()->sync([]);
+        }
+
+        return redirect()->route('admin.projects.index')
+            ->with('success', 'Project updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

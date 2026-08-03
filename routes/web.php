@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\Admin\TechnologyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,6 +36,7 @@ Route::prefix('admin')
 
         Route::resource('projects', AdminProjectController::class);
         Route::resource('types', TypeController::class);
+        Route::resource('technologies', TechnologyController::class);
     });
 
 require __DIR__ . '/auth.php';

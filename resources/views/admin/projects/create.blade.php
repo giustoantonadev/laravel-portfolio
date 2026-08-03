@@ -35,6 +35,21 @@
         @enderror
     </div>
 
+    @foreach($technologies as $tech)
+    <div class="form-check">
+        <input
+            class="form-check-input"
+            type="checkbox"
+            name="technologies[]"
+            value="{{ $tech->id }}"
+            {{ in_array($tech->id, old('technologies', $project->technologies->pluck('id')->toArray() ?? [])) ? 'checked' : '' }}>
+        <label class="form-check-label">
+            {{ $tech->name }}
+        </label>
+    </div>
+    @endforeach
+
+
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description') }}</textarea>

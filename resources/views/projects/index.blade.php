@@ -2,24 +2,80 @@
 
 @section('content')
 <div class="container py-5">
-    <h1 class="fw-bold mb-4">Projects</h1>
+
+    <h1 class="text-light fw-bold mb-4">Projects</h1>
 
     <div class="row g-4">
-        @foreach ($projects as $project)
-        <div class="col-md-4">
-            <div class="card bg-dark text-light shadow-sm border-0">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $project->title }}</h5>
-                    <p class="card-text text-muted">{{ Str::limit($project->description, 80) }}</p>
-                    <a href="{{ route('projects.show', $project) }}" class="btn btn-outline-light btn-sm">View</a>
+
+        @foreach($projects as $project)
+        <div class="col-md-6 col-lg-4">
+
+            <a href="{{ route('projects.show', $project) }}" class="text-decoration-none">
+
+                <div class="project-card shadow-lg">
+
+                    {{-- IMAGE --}}
+                    @if($project->image)
+                        <div class="overflow-hidden">
+                            <img src="{{ asset('storage/' . $project->image) }}"
+                                 alt="{{ $project->title }}"
+                                 class="img-fluid">
+                        </div>
+                    @endif
+
+                    <div class="p-3">
+
+                        {{-- TITLE --}}
+                        <h4 class="project-title fw-bold">{{ $project->title }}</h4>
+
+                        {{-- TYPE --}}
+                        <p class="project-type mb-2">
+                            {{ $project->type ? $project->type->name : 'No type' }}
+                        </p>
+
+                        {{-- TECHNOLOGIES --}}
+                        @if($project->technologies->isNotEmpty())
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                @foreach($project->technologies as $tech)
+                                    <span class="tech-badge"
+                                          style="--color: {{ $tech->color }}">
+                                        <i class="{{ $tech->icon }}"></i>
+                                        {{ $tech->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
+
+                    </div>
                 </div>
-            </div>
+
+            </a>
+
         </div>
         @endforeach
+
     </div>
 
-    <div class="mt-4">
-        {{ $projects->links() }}
+    {{-- PAGINATION --}}
+    <div class="custom-pagination">
+
+        @if ($projects->onFirstPage())
+            <span class="page-btn disabled">Prev</span>
+        @else
+            <a href="{{ $projects->previousPageUrl() }}" class="page-btn">Prev</a>
+        @endif
+
+        <span class="page-number">
+            Page {{ $projects->currentPage() }} of {{ $projects->lastPage() }}
+        </span>
+
+        @if ($projects->hasMorePages())
+            <a href="{{ $projects->nextPageUrl() }}" class="page-btn">Next</a>
+        @else
+            <span class="page-btn disabled">Next</span>
+        @endif
+
     </div>
+
 </div>
 @endsection
