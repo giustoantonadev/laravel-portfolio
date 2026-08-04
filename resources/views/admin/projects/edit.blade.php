@@ -1,69 +1,102 @@
 @extends('layouts.admin')
 
+@section('title', 'Edit Project')
+
 @section('content')
+<div class="container py-4">
 
-<h1>Edit project</h1>
+    <h1 class="text-light mb-4">Edit Project</h1>
 
-<form action="{{ route('admin.projects.update', $project->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+    <div class="card bg-dark text-light border-0 shadow-sm">
+        <div class="card-body">
 
-    <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $project->title) }}">
-        @error('title')
-        <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+            <form action="{{ route('admin.projects.update', $project) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                {{-- TITLE --}}
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text"
+                           name="title"
+                           class="form-control bg-dark text-light @error('title') is-invalid @enderror"
+                           value="{{ old('title', $project->title) }}">
+                    @error('title')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- DESCRIPTION --}}
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description"
+                              rows="5"
+                              class="form-control bg-dark text-light @error('description') is-invalid @enderror">{{ old('description', $project->description) }}</textarea>
+                    @error('description')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- TYPE --}}
+                <div class="mb-3">
+                    <label class="form-label">Type</label>
+                    <select name="type_id"
+                            class="form-select bg-dark text-light @error('type_id') is-invalid @enderror">
+                        <option value="">No type</option>
+
+                        @foreach ($types as $type)
+                            <option value="{{ $type->id }}"
+                                {{ old('type_id', $project->type_id) == $type->id ? 'selected' : '' }}>
+                                {{ $type->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('type_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- TECHNOLOGIES --}}
+                <div class="mb-3">
+                    <label class="form-label">Technologies</label>
+
+                    <div class="d-flex flex-wrap gap-2">
+
+                        @foreach ($technologies as $tech)
+                            <label for="tech{{ $tech->id }}"
+                                   class="p-2 rounded d-flex align-items-center gap-2"
+                                   style="background-color: {{ $tech->color }}; cursor:pointer;">
+
+                                <input type="checkbox"
+                                       id="tech{{ $tech->id }}"
+                                       name="technologies[]"
+                                       value="{{ $tech->id }}"
+                                       class="form-check-input"
+                                       {{ in_array($tech->id, old('technologies', $project->technologies->pluck('id')->toArray())) ? 'checked' : '' }}>
+
+                                <i class="{{ $tech->icon }}"></i>
+                                <span class="fw-bold">{{ $tech->name }}</span>
+                            </label>
+                        @endforeach
+
+                    </div>
+
+                    @error('technologies')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- BUTTONS --}}
+                <div class="mt-4 d-flex gap-2">
+                    <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Cancel</a>
+                    <button class="btn btn-warning">Save Changes</button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
 
-    <div class="mb-3">
-        <label for="type_id" class="form-label">Tipo</label>
-        <select name="type_id" id="type_id" class="form-select">
-            <option value="">-- Seleziona un tipo --</option>
-
-            @foreach($types as $type)
-            <option value="{{ $type->id }}"
-                {{ old('type_id', $project->type_id ?? '') == $type->id ? 'selected' : '' }}>
-                {{ $type->name }}
-            </option>
-            @endforeach
-        </select>
-    </div>
-
-
-    <div class="mb-3">
-        <label for="slug" class="form-label">Slug</label>
-        <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug', $project->slug) }}">
-        @error('slug')
-        <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-
-    @foreach($technologies as $tech)
-    <div class="form-check">
-        <input
-            class="form-check-input"
-            type="checkbox"
-            name="technologies[]"
-            value="{{ $tech->id }}"
-            {{ in_array($tech->id, old('technologies', $project->technologies->pluck('id')->toArray() ?? [])) ? 'checked' : '' }}>
-        <label class="form-check-label">
-            {{ $tech->name }}
-        </label>
-    </div>
-    @endforeach
-
-
-    <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description', $project->description) }}</textarea>
-        @error('description')
-        <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-
-
-    <button type="submit" class="btn btn-primary">Update project</button>
-</form>
-
+</div>
 @endsection
